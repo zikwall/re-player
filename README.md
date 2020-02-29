@@ -3,3 +3,9 @@
   <h1>REPlayer</h1>
   <h4>For React Native Apps</h4>
 </div>
+
+![Gif1](/gifs/20200229_205716_2.gif)
+![Gif1](/gifs/20200229_205716_3.gif)
+![Gif1](/gifs/20200229_205838_1.gif)
+
+### Features
