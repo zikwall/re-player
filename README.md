@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="800" height="400" src="https://github.com/zikwall/re-player/blob/master/screenshots/re-player-poster.png">
+  <img width="800" height="400" src="https://github.com/zikwall/re-player/blob/master/screenshots/re-player-poster-2.png">
   <h4>For React Native Apps</h4>
   <h5>powered by PlayHub app</h5>
 </div>
