@@ -14,7 +14,7 @@ Common | Adaptive | Live Streaming
 - [x] Light Animated & Responsive Components
 - [x] Controls & UI:
     - [x] Play/Pause & with BigPlay
-    - [x] Volume with adaptive icons depending on the sound level.
+    - [x] Volume with adaptive icons depending on the sound level & `onPress` for mute/unmute.
     - [x] Crop (resize mode).
     - [x] Full-screen mode.
     - [x] Overlay Sidebar: You can set you custom content in side bar, e.g. playlist or related videos.
