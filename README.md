@@ -2,6 +2,7 @@
   <img width="800" height="400" src="https://github.com/zikwall/re-player/blob/master/screenshots/re-player-poster.png">
   <h1>REPlayer</h1>
   <h4>For React Native Apps</h4>
+  <h5>powered by PlayHub app</h5>
 </div>
 
 Common | Adaptive | Live Streaming
