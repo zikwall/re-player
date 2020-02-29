@@ -12,14 +12,15 @@ Common | Adaptive | Live Streaming
 
 - [x] Easy Customizable: events, icons components, other `props`.
 - [x] Light Animated & Responsive Components
-- [x] Controls:
+- [x] Controls & UI:
     - [x] Play/Pause & with BigPlay
     - [x] Volume with adaptive icons depending on the sound level.
     - [x] Crop (resize mode).
     - [x] Fullscreen mode.
     - [x] Overlay Sidebar: You can set you custom content in side bar, e.g. playlist or related videos.
     - [x] Lock: You can lock the control buttons and not show them.
-    - [x] Back from fullscreen
+    - [x] Back from fullscreen.
+    - [x] Title component on fullscreen, e.g. text or text with image.
 - [x] Custom Events
     - [x] On double taps left/right
     - [x] On double taps video transform to fullscreen, one tab set visible controls
