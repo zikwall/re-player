@@ -16,18 +16,19 @@ Common | Adaptive | Live Streaming
     - [x] Play/Pause & with BigPlay
     - [x] Volume with adaptive icons depending on the sound level.
     - [x] Crop (resize mode).
-    - [x] Fullscreen mode.
+    - [x] Full-screen mode.
     - [x] Overlay Sidebar: You can set you custom content in side bar, e.g. playlist or related videos.
     - [x] Lock: You can lock the control buttons and not show them.
-    - [x] Back from fullscreen.
-    - [x] Title component on fullscreen, e.g. text or text with image.
+    - [x] Back from full-screen.
+    - [x] Title component on full-screen, e.g. text or text with image.
 - [x] Custom Events
-    - [x] On double taps left/right
-    - [x] On double taps video transform to fullscreen, one tab set visible controls
+    - [x] On double taps left/right.
+    - [x] On double taps video transform to full-screen, one tab set visible controls.
+    - [x] Intercepts a standard gesture/button back during full-screen mode to exit it.
     - [x] e.g. `onFullscreen`, `onPause`/`onPlay`, etc.
 - [x] Video types
-    - [x] Stream/Online without time controls & mark `live`
-    - [x] Video ends with time controls & dynamic formatted (`h:i:s`) duration times (current, end)
+    - [x] Stream/Online without time controls & mark `live`.
+    - [x] Video ends with time controls & dynamic formatted (`h:i:s`) duration times (current, end).
 
 #### Coming Soon
 
