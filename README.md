@@ -26,7 +26,7 @@ Common | Adaptive | Live Streaming
     - [x] e.g. `onFullscreen`, `onPause`/`onPlay`, etc.
 - [x] Video types
     - [x] Stream/Online without time controls & mark `live`
-    - [x] Video ends with time controls
+    - [x] Video ends with time controls & dynamic formatted (H:I:S) duration times (current, end)
 
 #### Coming Soon
 
