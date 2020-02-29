@@ -10,7 +10,7 @@ Common | Adaptive | Live Streaming
 
 ### Features
 
-- [x] Easy Customizable: events, icons components, other props.
+- [x] Easy Customizable: events, icons components, other `props`.
 - [x] Light Animated & Responsive Components
 - [x] Controls:
     - [x] Play/Pause & with BigPlay
@@ -22,8 +22,8 @@ Common | Adaptive | Live Streaming
     - [x] Back from fullscreen
 - [x] Custom Events
     - [x] On double taps left/right
-    - [x] On double tabs video transform to fullscreen, one tab set visible controls
-    - [x] e.g. onFullscreen, onPause/onPlay, etc.
+    - [x] On double taps video transform to fullscreen, one tab set visible controls
+    - [x] e.g. `onFullscreen`, `onPause`/`onPlay`, etc.
 - [x] Video types
     - [x] Stream/Online without time controls & mark `live`
     - [x] Video ends with time controls
