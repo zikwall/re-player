@@ -15,6 +15,7 @@ import { human } from "react-native-typography";
 
 import { formatTime } from '../help/String';
 import Row from './Row';
+import Overlay from './Overlay';
 import DoubleTap from './DoubleTap';
 import NativeVideoPlayer from "./NativeVideoPlayer";
 import NativeVideoPlayerActionOverlayContainer from "./NativeVideoPlayerActionOverlayContainer";
@@ -22,6 +23,7 @@ import NativeVideoPlayerActionOverlayContainer from "./NativeVideoPlayerActionOv
 const NativeVideoPlayerContainer = (
     {
         source,
+        playlist,
         isDebug,
         title,
         overlaySidebarContent,
@@ -46,6 +48,8 @@ const NativeVideoPlayerContainer = (
         onEventOverlayClose,
         onEventHardwareBackPress
     }) => {
+
+    const [ targetPlaylist, setTargetPlaylist ] = useState(!!playlist ? playlist[0] : null);
 
     const [ rate, setRate ] = useState(1);
     const [ volume, setVolume ] = useState(0.5);
@@ -99,6 +103,10 @@ const NativeVideoPlayerContainer = (
         }
     };
 
+    const onSelectItem = (id, title) => {
+        setTargetPlaylist(playlist.find(item => item.id === id));
+    };
+
     /**
      *  VIDEO EVENTS
      */
@@ -123,6 +131,7 @@ const NativeVideoPlayerContainer = (
             video.current.seek(currentTime);
         }
 
+        setIsLoaded(false);
         onEventLoadStart();
     };
 
@@ -501,13 +510,13 @@ const NativeVideoPlayerContainer = (
             return null;
         }
 
-        if (!title) {
+        if (!targetPlaylist.title) {
             return null;
         }
 
         return (
             <Text style={{ color: '#fff', maxWidth: Dimensions.get('window').width * 0.5 }} numberOfLines={1}>
-                { title }
+                { targetPlaylist.title }
             </Text>
         )
     };
@@ -631,6 +640,9 @@ const NativeVideoPlayerContainer = (
                 onClose={onOverlayActionClose}
                 style={{ transform: [{ translateX: translationX }] }}
                 iconSize={ fullscreen ? 30 : 20 }
+                onSelectItem={onSelectItem}
+                fullscreen={fullscreen}
+                items={playlist}
             >
                 { children }
             </NativeVideoPlayerActionOverlayContainer>
@@ -647,7 +659,7 @@ const NativeVideoPlayerContainer = (
             >
                 <NativeVideoPlayer
                     setRef={ ref => video.current = ref }
-                    source={ source }
+                    source={ targetPlaylist.uri }
                     fullscreen={ fullscreen }
                     volume={ volume }
                     muted={ muted }
@@ -665,9 +677,10 @@ const NativeVideoPlayerContainer = (
                 />
             </DoubleTap>
 
+            {fullscreen && <Overlay visible={!isLoaded} /> }
+
             {renderNativeOverlayContainer()}
             {renderHeaderLine()}
-
             {
                 (!isLocked && isVisible) &&
                 <Animated.View style={{
