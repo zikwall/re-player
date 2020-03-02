@@ -34,4 +34,16 @@ Common | Adaptive | Live Streaming
 
 ### Installation
 
-#### Before installation
+#### Before install dependencies
+
+- [x] `prop-types`
+- [x] `react-native-video`
+- [x] `react-native-orientation`
+- [x] `react-native-vector-icons`
+- [x] `@react-native-community/slider`
+- [x] `react-native-typography`
+
+#### Install RePLayer
+
+- [x] `npm i re-player`
+- [x] from git add package.json next line: `"re-player": "git+https://git@github.com/zikwall/re-player.git"`
