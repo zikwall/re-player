@@ -38,7 +38,7 @@ Common | Adaptive | Live Streaming
 
 #### Future todo
 
-- [ ] `playlist`
+- [ ] `playlist`, see [Playlist Branch](https://github.com/zikwall/re-player/tree/playlist)
 - [ ] `fullscreenEnabled`
 - [ ] `hardwareEnabled`
 - [ ] `overlayEnabled`
