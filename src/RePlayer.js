@@ -1,7 +1,3 @@
-import React from 'react';
+import NativeVideoPlayerContainer from "./components/NativeVideoPlayerContainer";
 
-const IndexTest = () => {
-    return 'IndexTest'
-};
-
-export default IndexTest;
+export default NativeVideoPlayerContainer;

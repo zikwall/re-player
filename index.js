@@ -1,1 +1,3 @@
-export { default as RePlayer} from './src/RePlayer';
+import RePlayer from './src/RePlayer';
+
+export default RePlayer;
