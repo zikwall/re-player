@@ -30,7 +30,43 @@ Common | Adaptive | Live Streaming
     - [x] Stream/Online without time controls & mark `live`.
     - [x] Video ends with time controls & dynamic formatted (`h:i:s`) duration times (current, end).
 
-#### Coming Soon
+### Props
+
+- [x] `source` string or object, __will soon be replaced by a `playlist`__
+- [x] `title` string
+- [x] `nativeProps` object, available native react-native-video props
+
+#### Future todo
+
+- [ ] `playlist`
+- [ ] `fullscreenEnabled`
+- [ ] `hardwareEnabled`
+- [ ] `overlayEnabled`
+- [ ] `lockEnabled`
+- [ ] `doubleTapFullscreenEnabled`
+- [ ] `doubleTapSeekEnabled`
+- [ ] `statusBarMode`
+
+### Events
+
+- [x] `onEventLoadStart()`,
+- [x] `onEventLoad(videoData)`
+- [x] `onEventProgress(currentTime)`
+- [x] `onEventCrop(mode)`
+- [x] `onEventSeek(value)`
+- [x] `onEventDoubleTapSeek(seekValue, direction)`, direction one of `left`, `right`
+- [x] `onEventFullscreen(isFullscreen)`
+- [x] `onEventDoubleTapFullscreen(isFullscreen)`
+- [x] `onEventPlayPause(isPaused)`
+- [x] `onEventLock(isLocked)`
+- [x] `onEventMute(isMuted)`
+- [x] `onEventVolumeChange(volumeValue)`,
+- [x] `onEventAudioBecomingNoisy()`,
+- [x] `onEventAudioFocusChanged(hasAudioFocus)`,
+- [x] `onEventHardwareBackPress(isFullscreen)`,
+- [x] `onEventOverlayClose()`,
+- [x] `onEventOverlayOpen()`,
+- [x] `onEventShowControls`
 
 ### Installation
 
