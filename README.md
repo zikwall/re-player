@@ -46,7 +46,7 @@ Common | Adaptive | Live Streaming
 - [ ] `doubleTapFullscreenEnabled`
 - [ ] `doubleTapSeekEnabled`
 - [ ] `statusBarMode`
-- [ ] `adTag`
+- [ ] `adTag`, wait PR: [#1839](https://github.com/react-native-community/react-native-video/pull/1839)
 
 ### Events
 
@@ -74,11 +74,11 @@ Common | Adaptive | Live Streaming
 #### Before install dependencies
 
 - [x] `prop-types`
-- [x] `react-native-video`
-- [x] `react-native-orientation`
-- [x] `react-native-vector-icons`
-- [x] `@react-native-community/slider`
-- [x] `react-native-typography`
+- [x] `react-native-video`, see manual: https://github.com/react-native-community/react-native-video
+- [x] `react-native-orientation`, see manual: https://github.com/yamill/react-native-orientation
+- [x] `react-native-vector-icons`, see manual: https://github.com/oblador/react-native-vector-icons
+- [x] `@react-native-community/slider`, see manual: https://github.com/react-native-community/react-native-slider
+- [x] `react-native-typography`, see manual: https://github.com/hectahertz/react-native-typography
 
 #### Install RePLayer
 
@@ -109,7 +109,7 @@ const App = () => {
 
 ```
 
-### 16:9 aspect ratio example
+#### 16:9 aspect ratio example
 
 ```js
 
