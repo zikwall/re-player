@@ -46,6 +46,7 @@ Common | Adaptive | Live Streaming
 - [ ] `doubleTapFullscreenEnabled`
 - [ ] `doubleTapSeekEnabled`
 - [ ] `statusBarMode`
+- [ ] `adTag`
 
 ### Events
 
@@ -83,3 +84,58 @@ Common | Adaptive | Live Streaming
 
 - [x] `npm i re-player`
 - [x] from git add package.json next line: `"re-player": "git+https://git@github.com/zikwall/re-player.git"`
+
+### Usage is very simple
+
+```js
+
+import React from 'react';
+import {
+    View,
+} from 'react-native';
+import RePlayer from 're-player';
+
+const App = () => {
+    return (
+        <RePlayer
+            source={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+            title={'Test'}
+            nativeProps={{
+                poster: 'https://raw.githubusercontent.com/zikwall/re-player/master/screenshots/re-player-poster-2.png'
+            }}
+        />
+    )
+}
+
+```
+
+### 16:9 aspect ratio example
+
+```js
+
+   // ...
+    
+    return (
+        <View style={{ paddingTop: '56.25%' }}>
+             <View style={{
+                 position: 'absolute',
+                 left: 0,
+                 right:0,
+                 bottom: 0,
+                 top: 0,
+                 backgroundColor: '#000'
+              }}>
+              <RePlayer
+                  source={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+                  title={'Test'}
+                  nativeProps={{
+                      poster: 'https://raw.githubusercontent.com/zikwall/re-player/master/screenshots/re-player-poster-2.png'
+                  }}
+              />
+            </View>
+        </View>
+    )
+
+   // ...
+
+```
