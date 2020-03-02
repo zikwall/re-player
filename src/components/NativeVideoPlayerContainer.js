@@ -706,15 +706,20 @@ const NativeVideoPlayerContainer = (
 };
 
 NativeVideoPlayerContainer.propTypes = {
-    title: PropTypes.string,
+    playlist: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        uri: PropTypes.string,
+    })),
     overlaySidebarContent: PropTypes.element,
-    source: PropTypes.oneOfType([
+    //title: PropTypes.string,
+    /*source: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.shape({
             uri: PropTypes.string,
             headers: PropTypes.object
         }),
-    ]),
+    ]),*/
     isDebug: PropTypes.bool,
     nativeProps: PropTypes.shape({
         poster: PropTypes.string,

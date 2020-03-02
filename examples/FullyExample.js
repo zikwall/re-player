@@ -21,8 +21,22 @@ const App = () => {
                     backgroundColor: '#000'
                 }}>
                     <RePlayer
-                        source={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
-                        title={'Test'}
+                        // is deprecated source
+                        //source={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+                        // is deprecated title
+                        //title={'Test'}
+                        playlist={[
+                            {
+                                id: 1,
+                                title: 'Test 1',
+                                uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                            },
+                            {
+                                id: 2,
+                                title: 'Test 2',
+                                uri: 'https://previews.customer.envatousercontent.com/h264-video-previews/01940919-82fb-43b7-b688-b585f0a0abe9/2158627.mp4'
+                            }
+                        ]}
                         nativeProps={{
                             poster: 'https://raw.githubusercontent.com/zikwall/re-player/master/screenshots/re-player-poster-2.png'
                         }}
