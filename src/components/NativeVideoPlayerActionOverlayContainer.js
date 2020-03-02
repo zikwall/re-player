@@ -1,9 +1,12 @@
 import React from 'react';
 import {
     View,
-    Animated
+    Animated,
+    TouchableOpacity
 } from 'react-native';
 import IconFontisto from "react-native-vector-icons/Fontisto";
+
+import Row from './Row';
 
 const NativeVideoPlayerActionOverlayContainer = ({ children, onClose, style, closeStyle, width, iconSize }) => {
     return (
@@ -17,12 +20,12 @@ const NativeVideoPlayerActionOverlayContainer = ({ children, onClose, style, clo
             zIndex: 99999,
             ...style
         }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Row>
                 <View />
                 <TouchableOpacity onPress={ onClose }>
                     <IconFontisto name={'arrow-right-l'} size={iconSize} style={{ color: '#fff', ...closeStyle }} />
                 </TouchableOpacity>
-            </View>
+            </Row>
             { children }
         </Animated.View>
     )

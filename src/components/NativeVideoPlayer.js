@@ -18,12 +18,13 @@ const style = StyleSheet.create({
 
 const NativeVideoPlayer = (
     {
-        fullscreen, source, rate, paused, volume, muted, resizeMode, repeat,
+        fullscreen, source, rate, paused, volume, muted, resizeMode, repeat, nativeProps,
         onLoad, onProgress, onLoadStart, onAudioBecomingNoisy, onAudioFocusChanged, setRef
     }) => {
 
     return (
         <Video
+            { ...nativeProps }
             style={!!fullscreen ? style.fullscreen : style.common }
 
             // TODO required
@@ -44,7 +45,6 @@ const NativeVideoPlayer = (
             volume={volume}
             muted={muted}
             resizeMode={resizeMode}
-            poster={'https://raw.githubusercontent.com/zikwall/re-player/master/screenshots/re-player-poster-2.png'}
             posterResizeMode={'cover'}
             onLoad={onLoad}
             onProgress={onProgress}
@@ -54,6 +54,10 @@ const NativeVideoPlayer = (
             repeat={repeat}
         />
     );
+};
+
+NativeVideoPlayer.defaultProps = {
+    nativeProps: {}
 };
 
 export default NativeVideoPlayer;

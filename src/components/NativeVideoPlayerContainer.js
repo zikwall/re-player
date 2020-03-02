@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import {
     Animated,
     BackHandler, Dimensions,
@@ -13,12 +14,38 @@ import Orientation from "react-native-orientation";
 import { human } from "react-native-typography";
 
 import { formatTime } from '../help/String';
+import Row from './Row';
 import DoubleTap from './DoubleTap';
 import NativeVideoPlayer from "./NativeVideoPlayer";
 import NativeVideoPlayerActionOverlayContainer from "./NativeVideoPlayerActionOverlayContainer";
 
+const NativeVideoPlayerContainer = (
+    {
+        source,
+        isDebug,
+        title,
+        overlaySidebarContent,
+        nativeProps,
 
-const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
+        onEventShowControls,
+        onEventFullscreen,
+        onEventDoubleTapFullscreen,
+        onEventPlayPause,
+        onEventProgress,
+        onEventLoad,
+        onEventLoadStart,
+        onEventCrop,
+        onEventVolumeChange,
+        onEventMute,
+        onEventLock,
+        onEventDoubleTapSeek,
+        onEventSeek,
+        onEventAudioBecomingNoisy,
+        onEventAudioFocusChanged,
+        onEventOverlayOpen,
+        onEventOverlayClose,
+        onEventHardwareBackPress
+    }) => {
 
     const [ rate, setRate ] = useState(1);
     const [ volume, setVolume ] = useState(0.5);
@@ -66,6 +93,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
     const onBackHundle = () => {
         if (fullscreen) {
             onFullscreen(fullscreen);
+            onEventHardwareBackPress(fullscreen);
 
             return true;
         }
@@ -78,6 +106,8 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
     const onProgress = (data) => {
         setSliderValue(data.currentTime);
         setCurrentTime(data.currentTime);
+
+        onEventProgress(data.currentTime);
     };
 
     const onLoadStart = () => {
@@ -92,6 +122,8 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
 
             video.current.seek(currentTime);
         }
+
+        onEventLoadStart();
     };
 
     const onLoad = (data) => {
@@ -110,20 +142,27 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
          */
         setDuration(data.duration);
         setIsLoaded(true);
+        onEventLoad(data);
     };
 
     const onSeek = (value) => {
         setCurrentTime(value);
         setSliderValue(value);
         video.current.seek(value);
+
+        onEventSeek(value);
     };
 
     const onAudioBecomingNoisy = () => {
         setPaused(true);
+
+        onEventAudioBecomingNoisy();
     };
 
     const onAudioFocusChanged = (event) => {
         setPaused(!event.hasAudioFocus);
+
+        onEventAudioFocusChanged(!event.hasAudioFocus);
     };
 
     /**
@@ -150,7 +189,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
         });
     };
 
-    const onRefreshTimer = () => {
+    const onRefreshTimer = (paused) => {
         clearTimeout(TimerHandler.current);
 
         if (paused) {
@@ -170,9 +209,16 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
 
     const onFullscreen = (isSelected) => {
         setFullscreen(!isSelected);
+        onEventFullscreen(!isSelected);
+
         onRefreshTimer(paused);
 
         isSelected ? Orientation.lockToPortrait() : Orientation.lockToLandscape();
+    };
+
+    const onDoubleTapFullscreen = () => {
+        onFullscreen(fullscreen);
+        onEventDoubleTapFullscreen(!fullscreen);
     };
 
     const renderFullscreenControl = () => {
@@ -203,6 +249,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
         }
 
         setResizeMode(rzm);
+        onEventCrop(rzm);
         onRefreshTimer();
     };
 
@@ -218,6 +265,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
 
     const onTogglePlayPause = () => {
         setPaused(!paused);
+        onEventPlayPause(!paused)
         onRefreshTimer(!paused);
     };
 
@@ -255,11 +303,13 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
     const onVolumeChange = (volume) => {
         setVolume(volume);
         setRememberVolume(volume);
+        onEventVolumeChange(volume);
         onRefreshTimer();
     };
 
     const onVolumeMute = () => {
         setVolume(volume ? 0 : rememberVolume);
+        onEventMute(volume ? 0 : rememberVolume);
         onRefreshTimer();
     };
 
@@ -313,7 +363,10 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
             toValue: 1,
             duration: 300,
             useNativeDriver: true,
-        }).start();
+        }).start(() => {
+            onEventOverlayOpen();
+        });
+
 
         onRefreshTimer();
     };
@@ -325,6 +378,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
             useNativeDriver: true,
         }).start(() => {
             setIsVisibleOverlay(false);
+            onEventOverlayClose();
         });
     };
 
@@ -341,12 +395,13 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
     const onShowControlsHandle = () => {
         setIsVisible(true);
         onAnimationRun();
+        onEventShowControls();
         onRefreshTimer(paused);
-        console.log('FFF');
     };
 
-    const onDoubleSeek = (toSeek) => {
+    const onDoubleSeek = (toSeek, direction) => {
         video.current.seek(toSeek);
+        onEventDoubleTapSeek(toSeek, direction);
 
         onRefreshTimer(paused);
     };
@@ -370,7 +425,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
                     paddingBottom: 15
                 }}
                 onDoubleTap={() => {
-                    onDoubleSeek(currentTime - 10);
+                    onDoubleSeek(currentTime - 10, 'left');
                 }}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -402,7 +457,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
                     paddingBottom: 15
                 }}
                 onDoubleTap={() => {
-                    onDoubleSeek(currentTime + 10);
+                    onDoubleSeek(currentTime + 10, 'right');
                 }}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -429,6 +484,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
 
     const onLock = () => {
         setIsLocked(!isLocked);
+        onEventLock(!isLocked);
         onRefreshTimer();
     };
 
@@ -442,6 +498,10 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
 
     const renderTitle = () => {
         if (!fullscreen) {
+            return null;
+        }
+
+        if (!title) {
             return null;
         }
 
@@ -583,7 +643,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
                 activeOpacity={1}
                 delay={180}
                 onTap={ onShowControlsHandle }
-                onDoubleTap={ () => !isLocked && onFullscreen(fullscreen) }
+                onDoubleTap={ () => !isLocked && onDoubleTapFullscreen() }
             >
                 <NativeVideoPlayer
                     setRef={ ref => video.current = ref }
@@ -595,6 +655,7 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
                     rate={ rate }
                     resizeMode={ resizeMode }
                     repeat={ false }
+                    nativeProps={ nativeProps }
 
                     onProgress={ onProgress }
                     onLoadStart={ onLoadStart }
@@ -632,11 +693,65 @@ const NativeVideoPlayerContainer = ({ source, isDebug, title }) => {
 };
 
 NativeVideoPlayerContainer.propTypes = {
+    title: PropTypes.string,
+    overlaySidebarContent: PropTypes.element,
+    source: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.shape({
+            uri: PropTypes.string,
+            headers: PropTypes.object
+        }),
+    ]),
+    isDebug: PropTypes.bool,
+    nativeProps: PropTypes.shape({
+        poster: PropTypes.string,
+    }),
 
+    onEventShowControls: PropTypes.func,
+    onEventFullscreen: PropTypes.func,
+    onEventDoubleTapFullscreen: PropTypes.func,
+    onEventPlayPause: PropTypes.func,
+    onEventProgress: PropTypes.func,
+    onEventLoad: PropTypes.func,
+    onEventLoadStart: PropTypes.func,
+    onEventCrop: PropTypes.func,
+    onEventVolumeChange: PropTypes.func,
+    onEventMute: PropTypes.func,
+    onEventLock: PropTypes.func,
+    onEventDoubleTapSeek: PropTypes.func,
+    onEventSeek: PropTypes.func,
+    onEventAudioBecomingNoisy: PropTypes.func,
+    onEventAudioFocusChanged: PropTypes.func,
+    onEventOverlayOpen: PropTypes.func,
+    onEventOverlayClose: PropTypes.func,
+    onEventHardwareBackPress: PropTypes.func
 };
 
+const noop = () => {}
+
 NativeVideoPlayerContainer.defaultProps = {
-    isDebug: true
+    isDebug: true,
+    title: '',
+    nativeProps: {},
+
+    onEventShowControls: noop,
+    onEventFullscreen: noop,
+    onEventDoubleTapFullscreen: noop,
+    onEventPlayPause: noop,
+    onEventProgress: noop,
+    onEventLoad: noop,
+    onEventLoadStart: noop,
+    onEventCrop: noop,
+    onEventVolumeChange: noop,
+    onEventMute: noop,
+    onEventLock: noop,
+    onEventDoubleTapSeek: noop,
+    onEventSeek: noop,
+    onEventAudioBecomingNoisy: noop,
+    onEventAudioFocusChanged: noop,
+    onEventOverlayOpen: noop,
+    onEventOverlayClose: noop,
+    onEventHardwareBackPress: noop
 };
 
 export default NativeVideoPlayerContainer;
