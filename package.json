@@ -1,0 +1,19 @@
+{
+  "name": "re-player",
+  "version": "1.0.0",
+  "description": "For React Native Apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zikwall/re-player.git"
+  },
+  "author": "Andrey Kapitonov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zikwall/re-player/issues"
+  },
+  "homepage": "https://github.com/zikwall/re-player#readme"
+}
