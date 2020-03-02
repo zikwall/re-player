@@ -83,7 +83,7 @@ Common | Adaptive | Live Streaming
 #### Install RePLayer
 
 - [x] `npm i re-player` - _this method is currently unavailable_
-- [x] from git add package.json next line: `"re-player": "git+https://git@github.com/zikwall/re-player.git"`
+- [x] from git add `package.json` next line: `"re-player": "git+https://git@github.com/zikwall/re-player.git"`
 
 ### Usage is very simple
 
