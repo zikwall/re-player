@@ -139,3 +139,9 @@ const App = () => {
    // ...
 
 ```
+
+### Screenshots
+
+General | Fullscreen 
+--- | ---
+![Screen1](/screenshots/Screenshot_20200302-155459_lol.jpg) | ![Screen2](/screenshots/Screenshot_20200302-155510_lol.jpg)
