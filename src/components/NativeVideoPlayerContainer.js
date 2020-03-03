@@ -6,6 +6,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    ScrollView
 } from "react-native";
 import Slider from "@react-native-community/slider";
 import Icon from "react-native-vector-icons/Feather";
@@ -19,6 +20,18 @@ import Overlay from './Overlay';
 import DoubleTap from './DoubleTap';
 import NativeVideoPlayer from "./NativeVideoPlayer";
 import NativeVideoPlayerActionOverlayContainer from "./NativeVideoPlayerActionOverlayContainer";
+
+const QualityItem = ({ quality, onSelect }) => {
+    return (
+        <TouchableOpacity onPress={() => onSelect(quality)}>
+            <View style={{ alignItems: 'center', paddingHorizontal: 10 }}>
+                <Text style={[ human.callout, { color: '#fff', borderBottomColor: '#fff', borderBottomWidth: 1, marginBottom: 5, marginTop: 5 } ]}>
+                    { quality.label }
+                </Text>
+            </View>
+        </TouchableOpacity>
+    )
+};
 
 const NativeVideoPlayerContainer = (
     {
@@ -49,7 +62,23 @@ const NativeVideoPlayerContainer = (
         onEventHardwareBackPress
     }) => {
 
+    const initQualities = (target) => {
+       let qualities = target.qualities.map(( quality ) => {
+            return {
+                label: quality.size,
+                src: quality.src
+            };
+       });
+
+       setQualities(qualities);
+    };
+
+    const [ qualities, setQualities ] = useState(null);
+    const [ activeQuality, setActiveQuality ] = useState(null);
+    const [ visibleQualityBox, setVisibleQualityBox ] = useState(false);
+
     const [ targetPlaylist, setTargetPlaylist ] = useState(!!playlist ? playlist[0] : null);
+    const [ targetSource, setTargetSource ] = useState(!!playlist ? playlist[0].qualities[0] : null);
 
     const [ rate, setRate ] = useState(1);
     const [ volume, setVolume ] = useState(0.5);
@@ -81,6 +110,8 @@ const NativeVideoPlayerContainer = (
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', onBackHundle);
 
+        initQualities(!!playlist ? playlist[0] : []);
+
         return () => {
             if (TimerHandler.current !== null) {
                 if (isDebug) {
@@ -104,7 +135,12 @@ const NativeVideoPlayerContainer = (
     };
 
     const onSelectItem = (id, title) => {
-        setTargetPlaylist(playlist.find(item => item.id === id));
+        let source = playlist.find(item => item.id === id);
+
+        console.log([id, source]);
+
+        setTargetSource(source.qualities[0]);
+        initQualities(source);
     };
 
     /**
@@ -368,6 +404,9 @@ const NativeVideoPlayerContainer = (
 
     const onActionControlToggle = () => {
         setIsVisibleOverlay(true);
+        // todo
+        setVisibleQualityBox(false);
+
         Animated.timing(AnimationTransformActionOverlay, {
             toValue: 1,
             duration: 300,
@@ -409,6 +448,13 @@ const NativeVideoPlayerContainer = (
     };
 
     const onDoubleSeek = (toSeek, direction) => {
+        // todo this is kostil
+        // при активации селектора возможность прокручивания по двойным табам
+        // все-равно есть, а это выглядит не правильно! Т.е. два клика по селектору произведет прокрутку!
+        if (visibleQualityBox) {
+            // return true;
+        }
+
         video.current.seek(toSeek);
         onEventDoubleTapSeek(toSeek, direction);
 
@@ -491,6 +537,64 @@ const NativeVideoPlayerContainer = (
         )
     };
 
+    const onSelectQuality = (quality) => {
+        setTargetSource({
+            src: quality.src
+        });
+
+        setActiveQuality(quality.size);
+    };
+
+    const onToogleQualityBox = () => {
+        setVisibleQualityBox(!visibleQualityBox);
+        onRefreshTimer();
+    };
+
+    const renderQualitySelectorAction = () => {
+        return (
+            <View>
+                <TouchableOpacity onPress={onToogleQualityBox}>
+                    <IconFontisto name={'player-settings'} size={ fullscreen ? 20 : 15 } color={'#fff'} />
+                </TouchableOpacity>
+            </View>
+        );
+    };
+
+    const renderQualitiesBox = () => {
+        if (!visibleQualityBox) {
+            return null;
+        }
+
+        return (
+            <View style={{
+                position: 'absolute',
+                top: Dimensions.get('window').height * (fullscreen ? 0.1 : 0.035),
+                right: Dimensions.get('window').width * (fullscreen ? 0.09 : 0.11),
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 2
+            }}>
+                <View style={{
+                    color: '#fff',
+                    backgroundColor: 'rgba( 0, 0, 0, 0.3);',
+                    borderColor: '#fff',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    height: Dimensions.get('window').height * (fullscreen ? 0.5 : 0.15),
+                    width: Dimensions.get('window').width * (fullscreen ? 0.2 : 0.3),
+                }}>
+                    <View style={{ padding: 10 }}>
+                        <ScrollView>
+                            {qualities.map((quality, index) => {
+                                return <QualityItem key={index} quality={quality} onSelect={onSelectQuality}/>
+                            })}
+                        </ScrollView>
+                    </View>
+                </View>
+            </View>
+        )
+    };
+
     const onLock = () => {
         setIsLocked(!isLocked);
         onEventLock(!isLocked);
@@ -542,7 +646,10 @@ const NativeVideoPlayerContainer = (
                 <Row>
                     {renderBackArrow()}
                     {renderTitle()}
-                    {renderLockAction()}
+                    <View style={{ flexDirection: 'row' }}>
+                        {renderQualitySelectorAction()}
+                        {renderLockAction()}
+                    </View>
                 </Row>
             </Animated.View>
         )
@@ -659,7 +766,7 @@ const NativeVideoPlayerContainer = (
             >
                 <NativeVideoPlayer
                     setRef={ ref => video.current = ref }
-                    source={ targetPlaylist.uri }
+                    source={ targetSource.src }
                     fullscreen={ fullscreen }
                     volume={ volume }
                     muted={ muted }
@@ -678,9 +785,8 @@ const NativeVideoPlayerContainer = (
             </DoubleTap>
 
             {fullscreen && <Overlay visible={!isLoaded} /> }
-
-            {renderNativeOverlayContainer()}
             {renderHeaderLine()}
+            {renderNativeOverlayContainer()}
             {
                 (!isLocked && isVisible) &&
                 <Animated.View style={{
@@ -694,6 +800,7 @@ const NativeVideoPlayerContainer = (
                     backgroundColor: 'rgba( 0, 0, 0, 0.3);',
                     opacity: AnimationOverlay,
                 }}>
+                    {renderQualitiesBox()}
                     {renderLeftDoubleTap()}
                     {renderRightDoubleTap()}
                     {renderBigPlayerAction(2.5)}
@@ -709,7 +816,12 @@ NativeVideoPlayerContainer.propTypes = {
     playlist: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string,
-        uri: PropTypes.string,
+        //uri: PropTypes.string,
+        qualities: PropTypes.arrayOf(PropTypes.shape({
+            src: PropTypes.string,
+            type: PropTypes.string,
+            size: PropTypes.number
+        }))
     })),
     overlaySidebarContent: PropTypes.element,
     //title: PropTypes.string,

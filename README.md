@@ -104,14 +104,40 @@ const App = () => {
             //title={'Test'}
             playlist={[
                {
-                  id: 1,
-                  title: 'Test 1',
-                  uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                   id: 1,
+                   title: 'Test 1',
+                   //uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                   poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Big_Buck_Bunny_medium.ogv/600px-seek%3D26-Big_Buck_Bunny_medium.ogv.jpg',
+                   qualities: [
+                       {
+                           src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                           type: 'video/mp4',
+                           size: 576
+                       }
+                   ]
                },
                {
-                  id: 2,
-                  title: 'Test 2',
-                  uri: 'https://previews.customer.envatousercontent.com/h264-video-previews/01940919-82fb-43b7-b688-b585f0a0abe9/2158627.mp4'
+                   id: 2,
+                   title: 'Test 2',
+                   poster: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg',
+                   qualities: [
+                       {
+                           src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
+                           type: 'video/mp4',
+                           size: 576
+                       },
+                       {
+                            src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
+                            type: 'video/mp4',
+                            size: 720
+                       },
+                       {
+                            src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4',
+                            type: 'video/mp4',
+                            size: 1080
+                       }
+                   ]
+                   //uri: 'https://previews.customer.envatousercontent.com/h264-video-previews/01940919-82fb-43b7-b688-b585f0a0abe9/2158627.mp4'
                }
             ]}
             nativeProps={{
@@ -148,12 +174,38 @@ const App = () => {
                        {
                            id: 1,
                            title: 'Test 1',
-                           uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                           //uri: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                           poster: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Big_Buck_Bunny_medium.ogv/600px-seek%3D26-Big_Buck_Bunny_medium.ogv.jpg',
+                           qualities: [
+                               {
+                                   src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+                                   type: 'video/mp4',
+                                   size: 576
+                               }
+                           ]
                        },
                        {
                            id: 2,
                            title: 'Test 2',
-                           uri: 'https://previews.customer.envatousercontent.com/h264-video-previews/01940919-82fb-43b7-b688-b585f0a0abe9/2158627.mp4'
+                           poster: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg',
+                           qualities: [
+                               {
+                                   src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4',
+                                   type: 'video/mp4',
+                                   size: 576
+                               },
+                               {
+                                    src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4',
+                                    type: 'video/mp4',
+                                    size: 720
+                               },
+                               {
+                                    src: 'https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4',
+                                    type: 'video/mp4',
+                                    size: 1080
+                               }
+                           ]
+                           //uri: 'https://previews.customer.envatousercontent.com/h264-video-previews/01940919-82fb-43b7-b688-b585f0a0abe9/2158627.mp4'
                        }
                   ]}
                   nativeProps={{

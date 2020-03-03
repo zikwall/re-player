@@ -4,23 +4,24 @@ import {
     View,
     Animated,
     TouchableOpacity,
-    FlatList
+    FlatList,
+    Image,
+    ImageBackground
 } from 'react-native';
 import IconFontisto from "react-native-vector-icons/Fontisto";
 import { human } from 'react-native-typography';
 
 import Row from './Row';
 
-const PlaylistItem = ({ number, id, title, onSelect, fullscreen }) => {
+const PlaylistItem = ({ number, id, title, poster, onSelect, fullscreen }) => {
     return (
         <TouchableOpacity onPress={() => onSelect(id, title)}>
-            <View style={{ flexDirection: 'row', paddingBottom: 10, alignItems: 'center' }}>
-                <View style={{ paddingRight: 10 }}>
-                    <IconFontisto name={'play'} size={fullscreen ? 15 : 10} color={'#fff'} />
-                </View>
-                <Text style={[ fullscreen ? human.title2 : human.callout, { color: '#fff' } ]}>
-                    { title }
-                </Text>
+            <View style={{ height: 80 }}>
+                <ImageBackground source={{ uri: poster }} style={{width: '90%', height: '90%', padding: 10}}>
+                    <Text>
+                        { title }
+                    </Text>
+                </ImageBackground>
             </View>
         </TouchableOpacity>
     )
@@ -52,6 +53,7 @@ const NativeVideoPlayerActionOverlayContainer = ({ items, onClose, style, closeS
                             number={index + 1}
                             id={item.id}
                             title={item.title}
+                            poster={item.poster}
                             onSelect={onSelectItem}
                             fullscreen={fullscreen}
                         />
