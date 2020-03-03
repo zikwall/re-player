@@ -144,4 +144,5 @@ const App = () => {
 
 General | Fullscreen 
 --- | ---
-![Screen1](/screenshots/Screenshot_20200302-155459_lol.jpg) | ![Screen2](/screenshots/Screenshot_20200302-155510_lol.jpg) ![Screen4](/screenshots/Screenshot_20200303-131430_lol.jpg) ![Screen4](/screenshots/Screenshot_20200303-132643_lol.jpg)
+![Screen1](/screenshots/Screenshot_20200302-155459_lol.jpg) | ![Screen2](/screenshots/Screenshot_20200302-155510_lol.jpg)
+![Screen3](/screenshots/Screenshot_20200303-131430_lol.jpg) | ![Screen4](/screenshots/Screenshot_20200303-132643_lol.jpg)
