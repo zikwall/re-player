@@ -32,7 +32,7 @@ Common | Adaptive | Live Streaming
 
 ### Props
 
-- [x] `source` string or object, __will soon be replaced by a `playlist`__
+- [x] `source` array of object { size: int, src: string' }
 - [x] `title` string
 - [x] `nativeProps` object, available native react-native-video props
 
@@ -98,10 +98,27 @@ import RePlayer from 're-player';
 const App = () => {
     return (
         <RePlayer
-            source={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
-            title={'Test'}
-            nativeProps={{
-                poster: 'https://raw.githubusercontent.com/zikwall/re-player/master/screenshots/re-player-poster-2.png'
+             source={[
+                 {
+                     size: 576,
+                     src: 'http://ultotv.ru:8888/live/uhd/playlist.m3u8'
+                 },
+                 {
+                     size: 720,
+                     src: 'https://previews.customer.envatousercontent.com/h264-video-previews/01940919-82fb-43b7-b688-b585f0a0abe9/2158627.mp4'
+                 },
+                 {
+                     size: 1080,
+                     src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                 },
+                 {
+                     size: 1080,
+                     src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                 }
+             ]}
+             title={'Test'}
+             nativeProps={{
+                 poster: 'https://raw.githubusercontent.com/zikwall/re-player/master/screenshots/re-player-poster-2.png'
             }}
         />
     )
@@ -126,7 +143,24 @@ const App = () => {
                  backgroundColor: '#000'
               }}>
               <RePlayer
-                  source={'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'}
+                  source={[
+                      {
+                           size: 576,
+                           src: 'http://ultotv.ru:8888/live/uhd/playlist.m3u8'
+                      },
+                      {
+                           size: 720,
+                           src: 'https://previews.customer.envatousercontent.com/h264-video-previews/01940919-82fb-43b7-b688-b585f0a0abe9/2158627.mp4'
+                      },
+                      {
+                           size: 1080,
+                           src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                      },
+                      {
+                           size: 1080,
+                           src: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+                      }
+                  ]}
                   title={'Test'}
                   nativeProps={{
                       poster: 'https://raw.githubusercontent.com/zikwall/re-player/master/screenshots/re-player-poster-2.png'
