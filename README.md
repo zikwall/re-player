@@ -84,6 +84,7 @@ Common | Adaptive | Live Streaming
 
 - [x] `npm i re-player` - _this method is currently unavailable_
 - [x] from git add `package.json` next line: `"re-player": "git+https://git@github.com/zikwall/re-player.git"`
+- [x] `react-native link re-player`
 
 ### Usage is very simple
 
