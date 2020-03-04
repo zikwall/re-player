@@ -6,6 +6,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    ScrollView
 } from "react-native";
 import Slider from "@react-native-community/slider";
 import Icon from "react-native-vector-icons/Feather";
@@ -18,6 +19,19 @@ import Row from './Row';
 import DoubleTap from './DoubleTap';
 import NativeVideoPlayer from "./NativeVideoPlayer";
 import NativeVideoPlayerActionOverlayContainer from "./NativeVideoPlayerActionOverlayContainer";
+
+const QualityItem = ({ quality, onSelect, isFullscreen, isActive }) => {
+    return (
+        <TouchableOpacity onPress={() => onSelect(quality)}>
+            <Text style={[
+                isFullscreen ? human.callout : human.footnote,
+                { color: isActive ? 'green' : '#fff', borderBottomColor: '#fff', borderBottomWidth: 1, marginBottom: 5, marginTop: 5, width: '100%' }
+            ]}>
+                { quality.label }
+            </Text>
+        </TouchableOpacity>
+    )
+};
 
 const NativeVideoPlayerContainer = (
     {
@@ -47,6 +61,12 @@ const NativeVideoPlayerContainer = (
         onEventHardwareBackPress
     }) => {
 
+    const [ targetSource, setTargetSource ] = useState(source[ source.length - 1 ].src);
+    const [ qualities, setQualities ] = useState([]);
+    const [ qualityEnable, setQualityEnable ] = useState(false);
+    const [ visibleQualityBox, setVisibleQualityBox ] = useState(false);
+    const [ activeQualityItem, setActiveQualityItem ] = useState(0);
+
     const [ rate, setRate ] = useState(1);
     const [ volume, setVolume ] = useState(0.5);
     const [ rememberVolume, setRememberVolume ] = useState(0.5);
@@ -73,6 +93,19 @@ const NativeVideoPlayerContainer = (
         inputRange: [0, 1],
         outputRange: [350, 0]
     });
+
+    useEffect(() => {
+        setTargetSource(source[ source.length - 1 ].src);
+
+        if (!!source && source.length > 1) {
+            setQualities(source);
+            setQualityEnable(true);
+        } else {
+            setQualityEnable(false);
+            setQualities([]);
+        }
+
+    }, [ source ]);
 
     useEffect(() => {
         BackHandler.addEventListener('hardwareBackPress', onBackHundle);
@@ -265,7 +298,7 @@ const NativeVideoPlayerContainer = (
 
     const onTogglePlayPause = () => {
         setPaused(!paused);
-        onEventPlayPause(!paused)
+        onEventPlayPause(!paused);
         onRefreshTimer(!paused);
     };
 
@@ -512,6 +545,75 @@ const NativeVideoPlayerContainer = (
         )
     };
 
+    const onSelectQuality = (quality) => {
+        setTargetSource(quality.src);
+        setActiveQualityItem(quality.size);
+    };
+
+    const onToogleQualityBox = () => {
+        setVisibleQualityBox(!visibleQualityBox);
+        onRefreshTimer();
+    };
+
+    const renderQualitySelectorAction = () => {
+        if (!qualityEnable) {
+            return null;
+        }
+
+        return (
+            <View>
+                <TouchableOpacity onPress={onToogleQualityBox}>
+                    <IconFontisto name={'player-settings'} size={ fullscreen ? 20 : 15 } color={'#fff'} />
+                </TouchableOpacity>
+            </View>
+        );
+    };
+
+    const renderQualitiesBox = () => {
+        if (!qualityEnable) {
+            return null;
+        }
+
+        if (!visibleQualityBox) {
+            return null;
+        }
+
+        return (
+            <View style={{
+                position: 'absolute',
+                top: Dimensions.get('window').height * (fullscreen ? 0.1 : 0.035),
+                right: Dimensions.get('window').width * (fullscreen ? 0.09 : 0.11),
+                justifyContent: 'center',
+                alignItems: 'center',
+                zIndex: 2
+            }}>
+                <View style={{
+                    color: '#fff',
+                    backgroundColor: 'rgba( 0, 0, 0, 0.3);',
+                    borderColor: '#fff',
+                    borderWidth: 1,
+                    borderRadius: 10,
+                    height: Dimensions.get('window').height * (fullscreen ? 0.5 : 0.15),
+                    width: Dimensions.get('window').width * (fullscreen ? 0.2 : 0.3),
+                }}>
+                    <ScrollView showsVerticalScrollIndicator={false} onScroll={() => onRefreshTimer()}>
+                        <View style={{ padding: 10, alignItems: 'center' }}>
+                            {qualities.map((quality, index) => {
+                                return <QualityItem
+                                    key={index}
+                                    quality={quality}
+                                    onSelect={onSelectQuality}
+                                    isFullscreen={fullscreen}
+                                    isActive={quality.label === activeQualityItem}
+                                />
+                            })}
+                        </View>
+                    </ScrollView>
+                </View>
+            </View>
+        )
+    };
+
     const renderHeaderLine = () => {
         if (!isVisible) {
             return null;
@@ -533,7 +635,10 @@ const NativeVideoPlayerContainer = (
                 <Row>
                     {renderBackArrow()}
                     {renderTitle()}
-                    {renderLockAction()}
+                    <View style={{ flexDirection: 'row' }}>
+                        {renderQualitySelectorAction()}
+                        {renderLockAction()}
+                    </View>
                 </Row>
             </Animated.View>
         )
@@ -647,7 +752,7 @@ const NativeVideoPlayerContainer = (
             >
                 <NativeVideoPlayer
                     setRef={ ref => video.current = ref }
-                    source={ source }
+                    source={ targetSource }
                     fullscreen={ fullscreen }
                     volume={ volume }
                     muted={ muted }
@@ -681,6 +786,7 @@ const NativeVideoPlayerContainer = (
                     backgroundColor: 'rgba( 0, 0, 0, 0.3);',
                     opacity: AnimationOverlay,
                 }}>
+                    {renderQualitiesBox()}
                     {renderLeftDoubleTap()}
                     {renderRightDoubleTap()}
                     {renderBigPlayerAction(2.5)}
@@ -695,13 +801,10 @@ const NativeVideoPlayerContainer = (
 NativeVideoPlayerContainer.propTypes = {
     title: PropTypes.string,
     overlaySidebarContent: PropTypes.element,
-    source: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.shape({
-            uri: PropTypes.string,
-            headers: PropTypes.object
-        }),
-    ]),
+    source: PropTypes.arrayOf(PropTypes.shape({
+        label: PropTypes.number,
+        src: PropTypes.string
+    })),
     isDebug: PropTypes.bool,
     nativeProps: PropTypes.shape({
         poster: PropTypes.string,
