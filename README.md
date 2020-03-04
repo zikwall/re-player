@@ -32,7 +32,7 @@ Common | Adaptive | Live Streaming
 
 ### Props
 
-- [x] `source` array of object { size: int, src: string' }
+- [x] `source` array of object { size: int, src: string }
 - [x] `title` string
 - [x] `nativeProps` object, available native react-native-video props
 
@@ -50,7 +50,7 @@ Common | Adaptive | Live Streaming
 
 ### Events
 
-- [x] `onEventLoadStart()`,
+- [x] `onEventLoadStart()`
 - [x] `onEventLoad(videoData)`
 - [x] `onEventProgress(currentTime)`
 - [x] `onEventCrop(mode)`
@@ -61,12 +61,12 @@ Common | Adaptive | Live Streaming
 - [x] `onEventPlayPause(isPaused)`
 - [x] `onEventLock(isLocked)`
 - [x] `onEventMute(isMuted)`
-- [x] `onEventVolumeChange(volumeValue)`,
-- [x] `onEventAudioBecomingNoisy()`,
-- [x] `onEventAudioFocusChanged(hasAudioFocus)`,
-- [x] `onEventHardwareBackPress(isFullscreen)`,
-- [x] `onEventOverlayClose()`,
-- [x] `onEventOverlayOpen()`,
+- [x] `onEventVolumeChange(volumeValue)`
+- [x] `onEventAudioBecomingNoisy()`
+- [x] `onEventAudioFocusChanged(hasAudioFocus)`
+- [x] `onEventHardwareBackPress(isFullscreen)`
+- [x] `onEventOverlayClose()`
+- [x] `onEventOverlayOpen()`
 - [x] `onEventShowControls`
 
 ### Installation
