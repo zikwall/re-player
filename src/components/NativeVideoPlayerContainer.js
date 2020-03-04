@@ -802,7 +802,7 @@ NativeVideoPlayerContainer.propTypes = {
     title: PropTypes.string,
     overlaySidebarContent: PropTypes.element,
     source: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.number,
+        size: PropTypes.number,
         src: PropTypes.string
     })),
     isDebug: PropTypes.bool,
