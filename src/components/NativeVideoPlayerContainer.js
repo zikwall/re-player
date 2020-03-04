@@ -25,9 +25,9 @@ const QualityItem = ({ quality, onSelect, isFullscreen, isActive }) => {
         <TouchableOpacity onPress={() => onSelect(quality)}>
             <Text style={[
                 isFullscreen ? human.callout : human.footnote,
-                { color: isActive ? 'green' : '#fff', borderBottomColor: '#fff', borderBottomWidth: 1, marginBottom: 5, marginTop: 5, width: '100%' }
+                { color: isActive ? 'green' : '#fff', borderBottomColor: isActive ? 'green' : '#fff', borderBottomWidth: 1, marginBottom: 5, marginTop: 5, width: '100%' }
             ]}>
-                { quality.label }
+                { quality.size }
             </Text>
         </TouchableOpacity>
     )
@@ -153,7 +153,7 @@ const NativeVideoPlayerContainer = (
                 console.log('Source already loaded.');
             }
 
-            video.current.seek(currentTime);
+            //video.current.seek(currentTime);
         }
 
         onEventLoadStart();
@@ -604,7 +604,7 @@ const NativeVideoPlayerContainer = (
                                     quality={quality}
                                     onSelect={onSelectQuality}
                                     isFullscreen={fullscreen}
-                                    isActive={quality.label === activeQualityItem}
+                                    isActive={quality.size === activeQualityItem}
                                 />
                             })}
                         </View>
