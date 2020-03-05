@@ -12,6 +12,11 @@ import com.facebook.react.bridge.JavaScriptModule;
 
 public class NativeRePlayerPackage implements ReactPackage {
     @Override
+    public List<Class<? extends JavaScriptModule>> createJSModules() {
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         return Arrays.<NativeModule>asList(new NativeRePlayerModule(reactContext));
     }
