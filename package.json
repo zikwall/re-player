@@ -1,34 +1,12 @@
 {
-  "_from": "git+https://git@github.com/zikwall/re-player.git",
-  "_id": "re-player@1.0.0",
-  "_inBundle": false,
-  "_integrity": "",
-  "_location": "/re-player",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "git",
-    "raw": "git+https://git@github.com/zikwall/re-player.git",
-    "rawSpec": "git+https://git@github.com/zikwall/re-player.git",
-    "saveSpec": "git+https://git@github.com/zikwall/re-player.git",
-    "fetchSpec": "https://git@github.com/zikwall/re-player.git",
-    "gitCommittish": null
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "git+https://git@github.com/zikwall/re-player.git#7d8d97e0e6a04e9499335f4fee2a1ccddfc6f88a",
-  "_spec": "git+https://git@github.com/zikwall/re-player.git",
-  "_where": "/home/ppc/React/Native/lol",
-  "author": {
-    "name": "Andrey Kapitonov"
-  },
+  "name": "re-player",
+  "version": "1.0.0",
+  "description": "Video player for React Native Apps based on ReactNativeVideo",
+  "author": "Andrey Kapitonov",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/zikwall/re-player/issues"
   },
-  "bundleDependencies": false,
-  "deprecated": false,
-  "description": "For React Native Apps",
   "homepage": "https://github.com/zikwall/re-player#readme",
   "keywords": [
     "react-native",
@@ -38,22 +16,22 @@
     "ios",
     "android"
   ],
-  "license": "ISC",
   "main": "index.js",
-  "name": "re-player",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zikwall/re-player.git"
+  },
   "peerDependencies": {
     "prop-types": "*",
     "react": "*",
     "react-native": "*",
     "react-native-vector-icons": ">= 2.1.0",
     "react-native-video": "^2.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/zikwall/re-player.git"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "1.0.0"
+  }
 }
