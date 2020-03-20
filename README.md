@@ -1,3 +1,6 @@
+![GitHub package.json version](https://img.shields.io/github/package-json/v/zikwall/re-player)
+![NPM](https://img.shields.io/npm/l/@zikwall/re-player)
+
 <div align="center">
   <img width="800" height="400" src="https://github.com/zikwall/re-player/blob/master/screenshots/re-player-poster-2.png">
   <h4>For React Native Apps</h4>
