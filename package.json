@@ -1,5 +1,5 @@
 {
-  "name": "re-player",
+  "name": "@zikwall/re-player",
   "version": "1.0.0",
   "description": "Video player for React Native Apps based on ReactNativeVideo",
   "author": "Andrey Kapitonov",
