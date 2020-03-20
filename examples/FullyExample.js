@@ -4,7 +4,7 @@ import {
     StatusBar,
 } from 'react-native';
 
-import RePlayer from 're-player';
+import RePlayer from '@zikwall/re-player';
 
 const App = () => {
     return (

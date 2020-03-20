@@ -82,8 +82,8 @@ Common | Adaptive | Live Streaming
 
 #### Install RePLayer
 
-- [x] `npm i re-player` - _this method is currently unavailable_
-- [x] from git add `package.json` next line: `"re-player": "git+https://git@github.com/zikwall/re-player.git"`
+- [x] `npm i @zikwall/re-player`
+- [x] from git add `package.json` next line: `"@zikwall/re-player": "git+https://git@github.com/zikwall/re-player.git"`
 
 ### Usage is very simple
 
@@ -93,7 +93,7 @@ import React from 'react';
 import {
     View,
 } from 'react-native';
-import RePlayer from 're-player';
+import RePlayer from '@zikwall/re-player';
 
 const App = () => {
     return (
