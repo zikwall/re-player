@@ -177,7 +177,7 @@ const NativeVideoPlayerContainer = (
         if (currentTime === 0) {
             setDuration(data.duration);
         } else {
-            onSeek(currentTime);
+            seek(currentTime);
         }
 
         setIsLoaded(true);
