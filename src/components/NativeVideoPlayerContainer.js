@@ -99,6 +99,7 @@ const NativeVideoPlayerContainer = (
 
         if (!!source && source.length > 1) {
             setQualities(source);
+            setActiveQualityItem(source[ source.length - 1 ].size);
             setQualityEnable(true);
         } else {
             setQualityEnable(false);
@@ -173,16 +174,24 @@ const NativeVideoPlayerContainer = (
          *      "naturalSize": {"height": 720, "orientation": "landscape", "width": 1280}
          * }
          */
-        setDuration(data.duration);
+        if (currentTime === 0) {
+            setDuration(data.duration);
+        } else {
+            onSeek(currentTime);
+        }
+
         setIsLoaded(true);
         onEventLoad(data);
     };
 
-    const onSeek = (value) => {
+    const seek = (value) => {
         setCurrentTime(value);
         setSliderValue(value);
         video.current.seek(value);
+    };
 
+    const onSeek = (value) => {
+        seek(value);
         onEventSeek(value);
     };
 
@@ -233,6 +242,7 @@ const NativeVideoPlayerContainer = (
         TimerHandler.current = setTimeout(() => {
             onOutAnimationRun(() => {
                 setIsVisible(false);
+                setVisibleQualityBox(false);
             });
 
             TimerHandler.current = null;
@@ -546,8 +556,10 @@ const NativeVideoPlayerContainer = (
     };
 
     const onSelectQuality = (quality) => {
+        setIsLoaded(false);
         setTargetSource(quality.src);
         setActiveQualityItem(quality.size);
+        onToogleQualityBox();
     };
 
     const onToogleQualityBox = () => {
