@@ -38,6 +38,7 @@ Common | Adaptive | Live Streaming
 - [x] `source` array of object { size: int, src: string }
 - [x] `title` string
 - [x] `nativeProps` object, available native react-native-video props
+- [x] `progressComponent` component, to set the loading status
 
 #### Future todo
 
