@@ -39,6 +39,7 @@ const NativeVideoPlayerContainer = (
         isDebug,
         title,
         overlaySidebarContent,
+        progressComponent,
         nativeProps,
 
         onEventShowControls,
@@ -99,6 +100,7 @@ const NativeVideoPlayerContainer = (
 
         if (!!source && source.length > 1) {
             setQualities(source);
+            setActiveQualityItem(source[ source.length - 1 ].size);
             setQualityEnable(true);
         } else {
             setQualityEnable(false);
@@ -173,16 +175,27 @@ const NativeVideoPlayerContainer = (
          *      "naturalSize": {"height": 720, "orientation": "landscape", "width": 1280}
          * }
          */
-        setDuration(data.duration);
-        setIsLoaded(true);
+        if (currentTime === 0) {
+            setDuration(data.duration);
+        } else {
+            seek(currentTime);
+        }
+
+        setTimeout(() => {
+            setIsLoaded(true);
+        }, 200);
+
         onEventLoad(data);
     };
 
-    const onSeek = (value) => {
+    const seek = (value) => {
         setCurrentTime(value);
         setSliderValue(value);
         video.current.seek(value);
+    };
 
+    const onSeek = (value) => {
+        seek(value);
         onEventSeek(value);
     };
 
@@ -233,6 +246,7 @@ const NativeVideoPlayerContainer = (
         TimerHandler.current = setTimeout(() => {
             onOutAnimationRun(() => {
                 setIsVisible(false);
+                setVisibleQualityBox(false);
             });
 
             TimerHandler.current = null;
@@ -546,8 +560,10 @@ const NativeVideoPlayerContainer = (
     };
 
     const onSelectQuality = (quality) => {
+        setIsLoaded(false);
         setTargetSource(quality.src);
         setActiveQualityItem(quality.size);
+        onToogleQualityBox();
     };
 
     const onToogleQualityBox = () => {
@@ -742,6 +758,40 @@ const NativeVideoPlayerContainer = (
         )
     };
 
+    const NativePlayerInizializing = (
+        <NativeVideoPlayer
+            setRef={ ref => video.current = ref }
+            source={ targetSource }
+            fullscreen={ fullscreen }
+            volume={ volume }
+            muted={ muted }
+            paused={ paused }
+            rate={ rate }
+            resizeMode={ resizeMode }
+            repeat={ false }
+            nativeProps={ nativeProps }
+
+            onProgress={ onProgress }
+            onLoadStart={ onLoadStart }
+            onLoad={ onLoad }
+            onAudioBecomingNoisy={ onAudioBecomingNoisy }
+            onAudioFocusChanged={ onAudioFocusChanged }
+        />
+    );
+
+    if (!!progressComponent && !isLoaded) {
+        return (
+            <>
+                <View style={{ flex: 1 }}>
+                    { progressComponent }
+                </View>
+                <View style={{ position: 'absolute' }}>
+                    { NativePlayerInizializing }
+                </View>
+            </>
+        )
+    }
+
     return (
         <View style={{ backgroundColor: '#000' }}>
             <DoubleTap
@@ -750,24 +800,7 @@ const NativeVideoPlayerContainer = (
                 onTap={ onShowControlsHandle }
                 onDoubleTap={ () => !isLocked && onDoubleTapFullscreen() }
             >
-                <NativeVideoPlayer
-                    setRef={ ref => video.current = ref }
-                    source={ targetSource }
-                    fullscreen={ fullscreen }
-                    volume={ volume }
-                    muted={ muted }
-                    paused={ paused }
-                    rate={ rate }
-                    resizeMode={ resizeMode }
-                    repeat={ false }
-                    nativeProps={ nativeProps }
-
-                    onProgress={ onProgress }
-                    onLoadStart={ onLoadStart }
-                    onLoad={ onLoad }
-                    onAudioBecomingNoisy={ onAudioBecomingNoisy }
-                    onAudioFocusChanged={ onAudioFocusChanged }
-                />
+                { NativePlayerInizializing }
             </DoubleTap>
 
             {renderNativeOverlayContainer()}
@@ -801,6 +834,7 @@ const NativeVideoPlayerContainer = (
 NativeVideoPlayerContainer.propTypes = {
     title: PropTypes.string,
     overlaySidebarContent: PropTypes.element,
+    progressComponent: PropTypes.element,
     source: PropTypes.arrayOf(PropTypes.shape({
         size: PropTypes.number,
         src: PropTypes.string
@@ -836,6 +870,7 @@ NativeVideoPlayerContainer.defaultProps = {
     isDebug: true,
     title: '',
     nativeProps: {},
+    progressComponent: null,
 
     onEventShowControls: noop,
     onEventFullscreen: noop,
