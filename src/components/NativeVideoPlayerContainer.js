@@ -39,6 +39,7 @@ const NativeVideoPlayerContainer = (
         isDebug,
         title,
         overlaySidebarContent,
+        progressComponent,
         nativeProps,
 
         onEventShowControls,
@@ -180,7 +181,10 @@ const NativeVideoPlayerContainer = (
             seek(currentTime);
         }
 
-        setIsLoaded(true);
+        setTimeout(() => {
+            setIsLoaded(true);
+        }, 200);
+
         onEventLoad(data);
     };
 
@@ -754,6 +758,40 @@ const NativeVideoPlayerContainer = (
         )
     };
 
+    const NativePlayerInizializing = (
+        <NativeVideoPlayer
+            setRef={ ref => video.current = ref }
+            source={ targetSource }
+            fullscreen={ fullscreen }
+            volume={ volume }
+            muted={ muted }
+            paused={ paused }
+            rate={ rate }
+            resizeMode={ resizeMode }
+            repeat={ false }
+            nativeProps={ nativeProps }
+
+            onProgress={ onProgress }
+            onLoadStart={ onLoadStart }
+            onLoad={ onLoad }
+            onAudioBecomingNoisy={ onAudioBecomingNoisy }
+            onAudioFocusChanged={ onAudioFocusChanged }
+        />
+    );
+
+    if (!!progressComponent && !isLoaded) {
+        return (
+            <>
+                <View style={{ flex: 1 }}>
+                    { progressComponent }
+                </View>
+                <View style={{ position: 'absolute' }}>
+                    { NativePlayerInizializing }
+                </View>
+            </>
+        )
+    }
+
     return (
         <View style={{ backgroundColor: '#000' }}>
             <DoubleTap
@@ -762,24 +800,7 @@ const NativeVideoPlayerContainer = (
                 onTap={ onShowControlsHandle }
                 onDoubleTap={ () => !isLocked && onDoubleTapFullscreen() }
             >
-                <NativeVideoPlayer
-                    setRef={ ref => video.current = ref }
-                    source={ targetSource }
-                    fullscreen={ fullscreen }
-                    volume={ volume }
-                    muted={ muted }
-                    paused={ paused }
-                    rate={ rate }
-                    resizeMode={ resizeMode }
-                    repeat={ false }
-                    nativeProps={ nativeProps }
-
-                    onProgress={ onProgress }
-                    onLoadStart={ onLoadStart }
-                    onLoad={ onLoad }
-                    onAudioBecomingNoisy={ onAudioBecomingNoisy }
-                    onAudioFocusChanged={ onAudioFocusChanged }
-                />
+                { NativePlayerInizializing }
             </DoubleTap>
 
             {renderNativeOverlayContainer()}
@@ -813,6 +834,7 @@ const NativeVideoPlayerContainer = (
 NativeVideoPlayerContainer.propTypes = {
     title: PropTypes.string,
     overlaySidebarContent: PropTypes.element,
+    progressComponent: PropTypes.element,
     source: PropTypes.arrayOf(PropTypes.shape({
         size: PropTypes.number,
         src: PropTypes.string
@@ -848,6 +870,7 @@ NativeVideoPlayerContainer.defaultProps = {
     isDebug: true,
     title: '',
     nativeProps: {},
+    progressComponent: null,
 
     onEventShowControls: noop,
     onEventFullscreen: noop,
